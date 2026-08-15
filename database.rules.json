@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "menu": {
+      ".read": true,
+      ".write": true,
+      "$item_id": {
+        ".validate": "newData.hasChildren(['name', 'price'])",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+        },
+        "price": {
+          ".validate": "newData.isNumber() && newData.val() > 0"
+        },
+        "createdAt": {
+          ".validate": "newData.isString()"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}

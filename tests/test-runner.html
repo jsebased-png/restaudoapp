@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RestoApp - Suite de Pruebas Unitarias</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .test-group { margin-bottom: 20px; }
+        .test-group h3 { font-size: 1.1rem; color: var(--color-text-main); margin-bottom: 8px; border-bottom: 1px solid var(--color-border); padding-bottom: 4px; }
+        .test-case { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; margin-bottom: 6px; border-radius: var(--radius-sm); font-size: 0.875rem; }
+        .test-case.pass { background-color: var(--color-success-bg); color: var(--color-success-text); border: 1px solid var(--color-success); }
+        .test-case.fail { background-color: var(--color-danger-bg); color: var(--color-danger-text); border: 1px solid var(--color-danger); }
+        .summary-badge { padding: 14px; border-radius: var(--radius-md); font-weight: 700; text-align: center; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Navegación Global Compartida -->
+    <header class="global-header">
+        <div class="global-nav-container">
+            <a href="../index.html" class="brand-link">
+                <span>🍽️ RestoApp</span>
+                <span class="brand-badge">QA / Tests</span>
+            </a>
+
+            <nav aria-label="Navegación principal">
+                <ul class="nav-menu">
+                    <li><a href="../index.html" class="nav-menu-link">🏠 Inicio</a></li>
+                    <li><a href="../pedido.html" class="nav-menu-link">📋 Pedidos</a></li>
+                    <li><a href="../login.html" class="nav-menu-link">🔐 Acceso</a></li>
+                    <li><a href="../admin.html" class="nav-menu-link">⚙️ Admin</a></li>
+                    <li><a href="test-runner.html" class="nav-menu-link active">🧪 Pruebas</a></li>
+                </ul>
+            </nav>
+
+
+        </div>
+    </header>
+
+    <main class="app-container">
+        <header class="app-header">
+            <h1>🧪 Suite de Pruebas Unitarias</h1>
+            <p>Verificación automatizada de lógica de negocio, validaciones y cálculos en navegador.</p>
+        </header>
+
+        <section class="card">
+            <h2 class="card-title">Resultados de la Ejecución</h2>
+            <div id="testOutput">⏳ Ejecutando pruebas unitarias...</div>
+            <div id="testSummary"></div>
+        </section>
+    </main>
+
+    <!-- Scripts Modulares -->
+    <script type="module" src="../js/navbar.js"></script>
+    <script type="module">
+        import { runTests } from './calculations.test.js';
+
+        const output = document.getElementById('testOutput');
+        const summary = document.getElementById('testSummary');
+        output.innerHTML = '';
+
+        let passed = 0;
+        let failed = 0;
+        let currentSuiteEl = null;
+
+        const reporter = {
+            describe: async (title, fn) => {
+                currentSuiteEl = document.createElement('div');
+                currentSuiteEl.className = 'test-group';
+                const h3 = document.createElement('h3');
+                h3.textContent = title;
+                currentSuiteEl.appendChild(h3);
+                output.appendChild(currentSuiteEl);
+                await fn();
+            },
+            it: async (description, fn) => {
+                const item = document.createElement('div');
+                try {
+                    await fn();
+                    item.className = 'test-case pass';
+                    item.innerHTML = `<span>✔ ${description}</span><strong>PASÓ</strong>`;
+                    passed++;
+                } catch (err) {
+                    item.className = 'test-case fail';
+                    item.innerHTML = `<span>✖ ${description} (${err.message})</span><strong>FALLÓ</strong>`;
+                    failed++;
+                }
+                currentSuiteEl.appendChild(item);
+                updateSummary();
+            },
+            assertEqual: (actual, expected, message = '') => {
+                if (actual !== expected) {
+                    throw new Error(`${message}: Esperado '${expected}', recibido '${actual}'`);
+                }
+            },
+            assertTrue: (condition, message = '') => {
+                if (!condition) {
+                    throw new Error(`${message}: La condición esperada no se cumplió.`);
+                }
+            },
+            assertThrows: (fn, message = '') => {
+                let threw = false;
+                try {
+                    fn();
+                } catch (e) {
+                    threw = true;
+                }
+                if (!threw) {
+                    throw new Error(`${message}: Se esperaba que la función lanzara una excepción.`);
+                }
+            }
+        };
+
+        function updateSummary() {
+            summary.className = failed === 0 ? 'summary-badge alert-success' : 'summary-badge alert-danger';
+            summary.innerHTML = `Total de Pruebas: ${passed + failed} | Aprobadas: ${passed} | Fallidas: ${failed}`;
+        }
+
+        await runTests(reporter);
+    </script>
+</body>
+</html>

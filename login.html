@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RestoApp - Acceso Administrativo</title>
+    <!-- Hoja de estilos unificada -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+        <!-- Barra de Navegación Global Compartida -->
+    <header class="global-header">
+        <div class="global-nav-container">
+            <a href="index.html" class="brand-link">
+                <span>🍽️ RestaudoApp</span>
+                <span class="brand-badge">Login</span>
+            </a>
+
+            <nav aria-label="Navegación principal">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-menu-link active">🏠 Inicio</a></li>
+                    <li><a href="pedido.html" class="nav-menu-link">📋 Pedidos</a></li>
+                    <li><a href="login.html" class="nav-menu-link">🔐 Acceso</a></li>
+                    <li><a href="admin.html" class="nav-menu-link">⚙️ Admin</a></li>
+                    <li><a href="tests/test-runner.html" class="nav-menu-link">🧪 Pruebas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="app-container">
+        <header class="app-header">
+            <h1>🔐 Acceso al Sistema</h1>
+            <p>Ingresa tus credenciales para acceder al panel de administración.</p>
+        </header>
+
+        <!-- Alerta de estado y retroalimentación -->
+        <div id="authAlert" class="alert" role="alert"></div>
+
+        <!-- Formulario de autenticación -->
+        <section class="card">
+            <h2 class="card-title">Iniciar Sesión</h2>
+            
+            <form id="formLogin" class="form-layout">
+                <div class="form-group">
+                    <label for="inputUser" class="form-label">Usuario o Correo:</label>
+                    <input 
+                        type="text" 
+                        id="inputUser" 
+                        class="form-control" 
+                        placeholder="Ingresa tu usuario (ej: admin)" 
+                        required 
+                        autocomplete="username"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPass" class="form-label">Contraseña:</label>
+                    <input 
+                        type="password" 
+                        id="inputPass" 
+                        class="form-control" 
+                        placeholder="••••••••" 
+                        required 
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <button type="submit" id="btnLogin" class="btn btn-primary">
+                    Ingresar al Panel
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Scripts Modulares -->
+    <script type="module" src="js/navbar.js"></script>
+    <script type="module" src="js/pages/loginPage.js"></script>
+</body>
+</html>
