@@ -14,3 +14,13 @@ export const FIREBASE_CONFIG = {
 };
 
 export const FIREBASE_RTDB_MENU_URL = `${FIREBASE_CONFIG.databaseURL}/menu.json`;
+export const FIREBASE_RTDB_ORDERS_URL = `${FIREBASE_CONFIG.databaseURL}/orders.json`;
+
+/**
+ * Construye la URL de un plato específico del menú por su ID (para PATCH/DELETE).
+ * @param {string} id
+ * @returns {string}
+ */
+export function getMenuItemUrl(id) {
+  return `${FIREBASE_CONFIG.databaseURL}/menu/${id}.json`;
+}

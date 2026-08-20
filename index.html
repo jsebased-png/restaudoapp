@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RestoApp - Sistema Gastronómico (MPA)</title>
+    <title>RestoApp - Catálogo de Platos</title>
     <!-- Hoja de estilos unificada y modular -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -14,7 +14,7 @@
         <div class="global-nav-container">
             <a href="index.html" class="brand-link">
                 <span>🍽️ RestoApp</span>
-                <span class="brand-badge">v2.0 MPA</span>
+                <span class="brand-badge">CatalogoCompleto</span>
             </a>
 
             <nav aria-label="Navegación principal">
@@ -23,14 +23,9 @@
                     <li><a href="pedido.html" class="nav-menu-link">📋 Pedidos</a></li>
                     <li><a href="login.html" class="nav-menu-link">🔐 Acceso</a></li>
                     <li><a href="admin.html" class="nav-menu-link">⚙️ Admin</a></li>
-                    <li><a href="tests/test-runner.html" class="nav-menu-link">🧪 Pruebas</a></li>
+                    <li><a href="orders.html" class="nav-menu-link">🧾 Órdenes</a></li>
                 </ul>
             </nav>
-
-            <div class="nav-actions">
-                <span id="navUserBadge" style="display: none;"></span>
-                <button id="themeToggleBtn" class="theme-toggle-btn">🌙 Modo Oscuro</button>
-            </div>
         </div>
     </header>
 
@@ -40,22 +35,12 @@
             <div class="hero-pill-tag">
                 <span>✨ GastroManager 2.0</span>
             </div>
-            
-            <h1 class="hero-title">Sistema Inteligente de Gestión Gastronómica</h1>
-            
-            <p class="hero-subtitle">
-                Arquitectura MPA modular, cálculo de pedidos con IVA en tiempo real y persistencia segura en la nube.
-            </p>
 
-            <!-- Acciones Rápidas (CTAs) -->
-            <div class="hero-cta-group">
-                <a href="pedido.html" class="btn-hero btn-hero-primary">
-                    <span>📋 Tomar Pedido</span>
-                </a>
-                <a href="login.html" class="btn-hero btn-hero-secondary">
-                    <span>🔐 Panel Admin</span>
-                </a>
-            </div>
+            <h1 class="hero-title">Nuestro Catálogo de Platos</h1>
+
+            <p class="hero-subtitle">
+                Explora el menú actualizado en tiempo real y ordena tu plato favorito en un solo clic.
+            </p>
 
             <!-- Estado de Conexión en Vivo -->
             <div class="status-indicator">
@@ -68,61 +53,27 @@
                 <span class="feature-chip">⚡ Tiempo Real</span>
                 <span class="feature-chip">🛡️ Seguro con Firebase</span>
                 <span class="feature-chip">📱 100% Responsivo</span>
-                <span class="feature-chip">🧪 Pruebas Unitarias</span>
+                <span class="feature-chip">🧾 Registro de Órdenes</span>
             </div>
         </section>
 
-        <!-- Grid de Módulos del Sistema -->
+        <!-- Catálogo de Platos -->
         <section class="card">
-            <h2 class="card-title">Módulos de la Aplicación</h2>
-            
-            <nav class="menu-grid" aria-label="Módulos principales">
-                <a href="pedido.html" class="menu-card">
-                    <div class="menu-card-header">
-                        <h3>📋 Módulo de Meseros</h3>
-                        <span class="badge badge-primary">Meseros</span>
-                    </div>
-                    <p>Calcula subtotales, IVA del 19% en tiempo real, validaciones estrictas y carga el catálogo dinámico de Firebase.</p>
-                    <span class="menu-card-action">Ingresar al módulo de pedidos →</span>
-                </a>
+            <h2 class="card-title">🍴 Catálogo de Platos</h2>
 
-                <a href="login.html" class="menu-card">
-                    <div class="menu-card-header">
-                        <h3>🔐 Acceso Administrativo</h3>
-                        <span class="badge badge-secondary">Seguridad</span>
-                    </div>
-                    <p>Autenticación segura con tokens de sesión, protección de rutas y control de acceso administrativo.</p>
-                    <span class="menu-card-action">Iniciar sesión de administrador →</span>
-                </a>
-
-                <a href="admin.html" class="menu-card">
-                    <div class="menu-card-header">
-                        <h3>⚙️ Panel de Gestión (Admin)</h3>
-                        <span class="badge badge-warning">Gestión</span>
-                    </div>
-                    <p>Crear nuevos platos, editar el menú del restaurante y gestionar la base de datos en tiempo real.</p>
-                    <span class="menu-card-action">Gestionar catálogo de platos →</span>
-                </a>
-
-                <a href="tests/test-runner.html" class="menu-card">
-                    <div class="menu-card-header">
-                        <h3>🧪 Suite de Pruebas Unitarias</h3>
-                        <span class="badge badge-info">Testing</span>
-                    </div>
-                    <p>Ejecuta la suite automatizada en navegador para verificar la lógica de cálculo, impuestos y validaciones.</p>
-                    <span class="menu-card-action">Ejecutar pruebas unitarias →</span>
-                </a>
-            </nav>
-        </section>
-
-        <!-- Catálogo de Menú en Vivo (Vista Rápida) -->
-        <section class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h2 class="card-title" style="margin-bottom: 0;">🍴 Menú en Tiempo Real</h2>
-                <a href="pedido.html" class="btn-link">Ordenar Ahora →</a>
+            <div class="catalog-toolbar">
+                <input
+                    type="search"
+                    id="catalogSearch"
+                    class="form-control catalog-search"
+                    placeholder="🔍 Buscar un plato por nombre..."
+                    aria-label="Buscar plato en el catálogo"
+                >
+                <span id="catalogCount" class="catalog-count">0 platos</span>
             </div>
-            <div id="liveMenuPreview" class="items-list">
-                <p style="color: var(--color-text-muted); font-size: 0.875rem;">⏳ Cargando catálogo desde Firebase...</p>
+
+            <div id="catalogGrid" class="catalog-grid">
+                <p class="catalog-state">⏳ Cargando catálogo desde Firebase...</p>
             </div>
         </section>
 
@@ -137,28 +88,59 @@
         import { cargarMenu } from './js/menu.js';
         import { formatearMoneda } from './js/pedidos.js';
 
-        const liveMenuPreview = document.getElementById('liveMenuPreview');
+        const catalogGrid = document.getElementById('catalogGrid');
+        const catalogSearch = document.getElementById('catalogSearch');
+        const catalogCount = document.getElementById('catalogCount');
 
-        async function initLiveMenu() {
+        // Iconos rotativos para dar variedad visual a cada tarjeta del catálogo
+        const ICONOS_PLATOS = ['🍽️', '🍜', '🍕', '🥗', '🍔', '🍰', '🍣', '🥘', '🍱', '🍝', '🍤', '🥞'];
+
+        let catalogoCompleto = [];
+
+        function iconoParaIndice(index) {
+            return ICONOS_PLATOS[index % ICONOS_PLATOS.length];
+        }
+
+        function renderCatalogo(platos) {
+            catalogCount.textContent = `${platos.length} plato${platos.length === 1 ? '' : 's'}`;
+
+            if (platos.length === 0) {
+                catalogGrid.innerHTML = catalogoCompleto.length === 0
+                    ? '<p class="catalog-state">ℹ️ Aún no hay platos registrados en el menú.</p>'
+                    : '<p class="catalog-state">🔍 No se encontraron platos que coincidan con tu búsqueda.</p>';
+                return;
+            }
+
+            catalogGrid.innerHTML = platos.map((plato) => `
+                <article class="catalog-card">
+                    <div class="catalog-card-icon">${iconoParaIndice(catalogoCompleto.indexOf(plato))}</div>
+                    <h3 class="catalog-card-name">${plato.name}</h3>
+                    <span class="catalog-card-price">${formatearMoneda(plato.price)}</span>
+                    <a href="pedido.html?plato=${encodeURIComponent(plato.id)}" class="btn btn-primary catalog-card-btn">
+                        📋 Pedir este plato
+                    </a>
+                </article>
+            `).join('');
+        }
+
+        async function initCatalogo() {
             try {
-                const platos = await cargarMenu();
-                if (platos.length === 0) {
-                    liveMenuPreview.innerHTML = '<p style="color: var(--color-text-muted); font-size: 0.875rem;">ℹ️ No hay platos registrados aún en Firebase.</p>';
-                    return;
-                }
-
-                liveMenuPreview.innerHTML = platos.slice(0, 5).map(plato => `
-                    <div class="item-badge">
-                        <span><strong>${plato.name}</strong></span>
-                        <span style="color: var(--color-primary); font-weight: 700;">${formatearMoneda(plato.price)}</span>
-                    </div>
-                `).join('') + (platos.length > 5 ? `<p style="text-align: center; font-size: 0.8rem; color: var(--color-text-muted); margin-top: 8px;">Y ${platos.length - 5} plato(s) más en el menú completo.</p>` : '');
+                catalogoCompleto = await cargarMenu();
+                renderCatalogo(catalogoCompleto);
             } catch (error) {
-                liveMenuPreview.innerHTML = '<p style="color: var(--color-danger); font-size: 0.875rem;">❌ No se pudo cargar la vista previa del menú.</p>';
+                catalogGrid.innerHTML = `<p class="catalog-state">❌ ${error.message || 'No se pudo cargar el catálogo.'}</p>`;
             }
         }
 
-        initLiveMenu();
+        catalogSearch.addEventListener('input', () => {
+            const termino = catalogSearch.value.trim().toLowerCase();
+            const filtrados = termino
+                ? catalogoCompleto.filter((plato) => plato.name.toLowerCase().includes(termino))
+                : catalogoCompleto;
+            renderCatalogo(filtrados);
+        });
+
+        initCatalogo();
     </script>
 </body>
 </html>

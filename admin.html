@@ -23,7 +23,7 @@
                     <li><a href="pedido.html" class="nav-menu-link">📋 Pedidos</a></li>
                     <li><a href="login.html" class="nav-menu-link">🔐 Acceso</a></li>
                     <li><a href="admin.html" class="nav-menu-link active">⚙️ Admin</a></li>
-                    <li><a href="tests/test-runner.html" class="nav-menu-link">🧪 Pruebas</a></li>
+                    <li><a href="orders.html" class="nav-menu-link">🧾 Órdenes</a></li>
                 </ul>
             </nav>
 
@@ -43,10 +43,16 @@
         <!-- Mensaje de estado -->
         <div id="prodAlert" class="alert" role="alert"></div>
 
-        <!-- Formulario para crear platos -->
+        <!-- Formulario para crear / editar platos -->
         <section class="card">
-            <h2 class="card-title">Crear Nuevo Plato</h2>
-            
+            <h2 class="card-title" id="formSectionTitle">Crear Nuevo Plato</h2>
+
+            <!-- Banner visible solo cuando se está editando un plato existente -->
+            <div id="editBanner" class="form-edit-banner">
+                <span>✏️ Editando: <strong id="editBannerName"></strong></span>
+                <button type="button" id="btnCancelarEdicion">Cancelar edición</button>
+            </div>
+
             <form id="formCreateProduct" class="form-layout" novalidate>
                 <div class="form-group">
                     <label for="inputProdName" class="form-label">Nombre del Plato:</label>
@@ -83,6 +89,18 @@
         <!-- Vista previa de platos en el catálogo -->
         <section class="card">
             <h2 class="card-title">Platos Registrados en el Menú</h2>
+
+            <div class="catalog-toolbar">
+                <input
+                    type="search"
+                    id="adminMenuSearch"
+                    class="form-control catalog-search"
+                    placeholder="🔍 Buscar plato registrado..."
+                    aria-label="Buscar plato en el menú"
+                >
+                <span id="adminMenuCount" class="catalog-count">0 platos</span>
+            </div>
+
             <div id="menuItemsList" class="items-list">
                 <!-- Se llena dinámicamente desde Firebase -->
             </div>

@@ -4,8 +4,8 @@
  * ============================================================================
  * GUÍA DIDÁCTICA Y EJERCICIOS PARA ESTUDIANTES:
  * ============================================================================
- * TODO [MENU-01]: CRUD Completo: Implementar las funciones de actualización (PUT/PATCH)
- *      y eliminación (DELETE) de platos conectadas a Firebase Realtime Database.
+ * [MENU-01] CRUD Completo: ✅ Implementado. Ver actualizarPlato() (PATCH) y
+ *      eliminarPlato() (DELETE), conectadas a Firebase Realtime Database.
  * TODO [MENU-02]: Categorización: Añadir campo 'categoria' (ej: Entradas, Fuertes,
  *      Bebidas, Postres) y filtrar la carga del menú según la categoría seleccionada.
  * TODO [MENU-03]: Manejo Offline / Cache: Guardar el menú en localStorage para que la
@@ -13,7 +13,7 @@
  * ============================================================================
  */
 
-import { FIREBASE_RTDB_MENU_URL } from './services/firebaseConfig.js';
+import { FIREBASE_RTDB_MENU_URL, getMenuItemUrl } from './services/firebaseConfig.js';
 import { obtenerTokenAutenticacion, estaAutenticado } from './auth.js';
 
 /**
@@ -144,6 +144,131 @@ export async function crearPlato(plato) {
     return await response.json();
   } catch (error) {
     console.error('[menu.js] Error al crear plato:', error);
+    if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+      throw new Error('No se pudo conectar con Firebase. Revisa tu conexión a internet.');
+    }
+    throw error;
+  }
+}
+
+/**
+ * Actualiza un plato existente en Firebase RTDB con validaciones estrictas.
+ *
+ * @param {string} id - ID del plato en Firebase (clave del nodo)
+ * @param {{ name: string, price: number|string }} plato
+ * @returns {Promise<any>}
+ */
+export async function actualizarPlato(id, plato) {
+  if (!estaAutenticado()) {
+    throw new Error('Acceso no autorizado. Debes iniciar sesión como administrador.');
+  }
+
+  if (!id) {
+    throw new Error('El ID del plato es obligatorio para actualizarlo.');
+  }
+
+  if (!plato || typeof plato !== 'object') {
+    throw new Error('Los datos del plato son inválidos o están vacíos.');
+  }
+
+  const nombreLimpio = typeof plato.name === 'string' ? plato.name.trim() : '';
+  if (!nombreLimpio) {
+    throw new Error('El nombre del plato es obligatorio.');
+  }
+
+  if (nombreLimpio.length < 2) {
+    throw new Error('El nombre del plato debe contener al menos 2 caracteres.');
+  }
+
+  if (nombreLimpio.length > 100) {
+    throw new Error('El nombre del plato no puede exceder los 100 caracteres.');
+  }
+
+  if (/<[^>]*>/g.test(nombreLimpio)) {
+    throw new Error('El nombre del plato no puede contener caracteres o etiquetas HTML.');
+  }
+
+  const precioNum = Number(plato.price);
+  if (plato.price === '' || plato.price === null || plato.price === undefined || isNaN(precioNum)) {
+    throw new Error('El precio debe ser un valor numérico.');
+  }
+
+  if (!Number.isFinite(precioNum) || precioNum <= 0) {
+    throw new Error('El precio del plato debe ser mayor a 0 pesos.');
+  }
+
+  if (precioNum > 50000000) {
+    throw new Error('El precio del plato excede el límite permitido ($50.000.000).');
+  }
+
+  const payload = {
+    name: nombreLimpio,
+    price: Math.round(precioNum * 100) / 100,
+    updatedAt: new Date().toISOString()
+  };
+
+  const token = obtenerTokenAutenticacion();
+  const urlBase = getMenuItemUrl(id);
+  const urlFinal = token ? `${urlBase}?auth=${encodeURIComponent(token)}` : urlBase;
+
+  try {
+    const response = await fetch(urlFinal, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('Permiso denegado: Tus credenciales no tienen autorización para editar en Firebase.');
+      }
+      throw new Error(`Error en el servidor (${response.status}): ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('[menu.js] Error al actualizar plato:', error);
+    if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+      throw new Error('No se pudo conectar con Firebase. Revisa tu conexión a internet.');
+    }
+    throw error;
+  }
+}
+
+/**
+ * Elimina un plato del catálogo en Firebase RTDB.
+ *
+ * @param {string} id - ID del plato en Firebase (clave del nodo)
+ * @returns {Promise<void>}
+ */
+export async function eliminarPlato(id) {
+  if (!estaAutenticado()) {
+    throw new Error('Acceso no autorizado. Debes iniciar sesión como administrador.');
+  }
+
+  if (!id) {
+    throw new Error('El ID del plato es obligatorio para eliminarlo.');
+  }
+
+  const token = obtenerTokenAutenticacion();
+  const urlBase = getMenuItemUrl(id);
+  const urlFinal = token ? `${urlBase}?auth=${encodeURIComponent(token)}` : urlBase;
+
+  try {
+    const response = await fetch(urlFinal, {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('Permiso denegado: Tus credenciales no tienen autorización para eliminar en Firebase.');
+      }
+      throw new Error(`Error en el servidor (${response.status}): ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('[menu.js] Error al eliminar plato:', error);
     if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
       throw new Error('No se pudo conectar con Firebase. Revisa tu conexión a internet.');
     }

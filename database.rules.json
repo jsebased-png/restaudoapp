@@ -18,6 +18,43 @@
           ".validate": false
         }
       }
+    },
+    "orders": {
+      ".read": true,
+      ".write": true,
+      "$order_id": {
+        ".validate": "newData.hasChildren(['platoNombre', 'cantidad', 'total'])",
+        "platoId": {
+          ".validate": "newData.isString() || newData.val() == null"
+        },
+        "platoNombre": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+        },
+        "cantidad": {
+          ".validate": "newData.isNumber() && newData.val() > 0"
+        },
+        "precioUnitario": {
+          ".validate": "newData.isNumber() && newData.val() > 0"
+        },
+        "tasaIva": {
+          ".validate": "newData.isNumber()"
+        },
+        "subtotal": {
+          ".validate": "newData.isNumber()"
+        },
+        "iva": {
+          ".validate": "newData.isNumber()"
+        },
+        "total": {
+          ".validate": "newData.isNumber() && newData.val() > 0"
+        },
+        "fecha": {
+          ".validate": "newData.isString()"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
     }
   }
 }

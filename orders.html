@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RestoApp - Órdenes Guardadas</title>
+    <!-- Hoja de estilos unificada -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Barra de Navegación Global Compartida -->
+    <header class="global-header">
+        <div class="global-nav-container">
+            <a href="index.html" class="brand-link">
+                <span>🍽️ RestoApp</span>
+                <span class="brand-badge">Órdenes</span>
+            </a>
+
+            <nav aria-label="Navegación principal">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-menu-link">🏠 Inicio</a></li>
+                    <li><a href="pedido.html" class="nav-menu-link">📋 Pedidos</a></li>
+                    <li><a href="login.html" class="nav-menu-link">🔐 Acceso</a></li>
+                    <li><a href="admin.html" class="nav-menu-link">⚙️ Admin</a></li>
+                    <li><a href="orders.html" class="nav-menu-link active">🧾 Órdenes</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="app-container">
+        <header class="app-header">
+            <h1>🧾 Órdenes Guardadas</h1>
+            <p>Historial de pedidos confirmados con sus totales calculados (subtotal, IVA y total).</p>
+        </header>
+
+        <section class="card">
+            <div class="orders-toolbar">
+                <h2 class="card-title" style="margin-bottom: 0;">Historial de Órdenes</h2>
+                <span id="ordersTotalPill" class="orders-total-pill">Total acumulado: $ 0,00</span>
+            </div>
+
+            <div id="ordersList" class="orders-list">
+                <p style="color: var(--color-text-muted); font-size: 0.875rem;">⏳ Cargando órdenes desde Firebase...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts Modulares -->
+    <script type="module" src="js/navbar.js"></script>
+    <script type="module" src="js/pages/ordersPage.js"></script>
+</body>
+</html>
